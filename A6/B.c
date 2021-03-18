@@ -1,24 +1,19 @@
 #include <stdio.h>
-int partitions(int arr[], int n){
-   int count = 0;
-   int max = arr[0];
-   int min=arr[0];
-   int temp=1;
-   for(int i=1;i<n;i++){
-       if(arr[i]<=min){
-           min=arr[i];
-           temp++;
-           continue;
-       }
-       if(arr[i]>max){
-           min=arr[i];
-           if(temp>count)
-            count=temp;
-           temp=1;
-           max=arr[i];
-       }
-   }
-   return count;
+int count=0;
+int partitions(int arr[], int r){
+    int idx=r-1;
+    if(idx<0){
+	    return count;
+	}
+	int max=0;
+	for(int i=0;i<r;i++)
+	    if(arr[i]>max){
+	         max=arr[i];
+	         idx=i;
+	    }
+	count++;
+	partitions(arr,idx);
+
 }
 int main()
 {
