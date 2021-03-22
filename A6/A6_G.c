@@ -39,14 +39,14 @@ void desc1(int ia,int* arr,int n){
 int hd(int n1, int n2) 
 { 
     int x = n1 ^ n2; 
-    int setBits = 0; 
+    int d = 0; 
   
     while (x > 0) { 
-        setBits += x & 1; 
+        d += x & 1; 
         x >>= 1; 
     } 
   
-    return setBits; 
+    return d; 
 } 
 int main()
 {
