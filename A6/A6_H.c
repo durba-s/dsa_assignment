@@ -27,54 +27,59 @@ int pop(int stack[], int *top)
       printf("Could not retrieve data, Stack is empty.\n");
    }
 }
-void fun(int n,char* arr,char* fin){
+void reverse(char s[],int a,int b){
+    for(int i=a;i<=(a+b)/2;i++){
+ 
+        char t=s[i];
+        s[i]=s[b-i+a];
+        s[b-i+a]=t;
+    } 
+}
+ 
+void inc(char s[],int a,int b){
+     for(int i=a;i<=b;i++){
+        if(s[i]>='a'&&s[i]<='z'){
+        s[i]++;}
+    } 
+}
+void fun(int n,char* arr){
     int square[MAX];
     int curly[MAX];
     int square_top = -1; 
     int curly_top = -1;
-    int i=0;
-    int j=0;
-    while(i<n&&j<n){
+    int i;
+    for(i=0;i<n;i++){
         if(arr[i]=='('){
             push(i,curly,&curly_top);
         }
         else if(arr[i]=='['){
             push(i,square,&square_top);
         }
-        else if(arr[i]>='a'&&arr[i]<='z'&&square_top==-1&&curly_top==-1){
-            fin[j++]=arr[i];
-        }
         else if(arr[i]==')'){
-            int st=pop(curly,&curly_top);
-            for(int p=i-1;p>st;p--){
-                fin[j++]=arr[p];
-            }
+            int x=pop(curly,&curly_top);
+            reverse(arr,x+1,i-1);
         }
         else if(arr[i]==']'){
-            int st=pop(square,&square_top);
-            for(int p=st+1;p<i;p++){
-                if(arr[p]<'z'){
-                    fin[j++]=arr[p]+1;
-                }
-                else{
-                    fin[j++]='a';
-                }
-            }
+            int x=pop(square,&square_top);
+            inc(arr,x+1,i-1);
             
         }
-        i++;
     }
     
     
 }
 int main()  
 { 
-    char arr[MAX],fin[MAX],c1;
+    char arr[MAX],c1;
     scanf("%s",arr);
     scanf("%c",&c1);
     int l=0;
     for(l=0;arr[l]!='\0';l++);;
-    fun(l,arr,fin);
-    printf("%s",fin);
+    fun(l,arr);
+    for(int i=0;i<l;i++){
+        if(arr[i]>='a'&&arr[i]<='z')
+            printf("%c",arr[i]);
+ 
+    }
     return 0;  
-}  
+} 
