@@ -1,21 +1,19 @@
 #include <stdio.h>
-#define MAX 10000
+#define MAX 100001
 void push(int data,int stack[], int *top)  
 { 
-   if(*top != MAX-1) // if stack is not full
+   if(*top != MAX-1) 
    {  *top = *top + 1;   
       stack[*top] = data;
         
    } 	
    else 
-   {
-      printf("Could not insert data, Stack is full.\n");
-   }
+    printf("Stack Full");
 }
 int pop(int stack[], int *top) 
 {
    int data;	
-   if(*top != -1) //checking whether stack contains some elements
+   if(*top != -1) 
    {
       data = stack[*top];
       *top = *top - 1;
@@ -23,12 +21,10 @@ int pop(int stack[], int *top)
       return data;
    } 
    else 
-   {
-      printf("Could not retrieve data, Stack is empty.\n");
-   }
+    return -1;
 }
 void reverse(char s[],int a,int b){
-    for(int i=a;i<=(a+b)/2;i++){
+    for(int i=a;i<=(a+b-1)/2;i++){
  
         char t=s[i];
         s[i]=s[b-i+a];
@@ -38,8 +34,10 @@ void reverse(char s[],int a,int b){
  
 void inc(char s[],int a,int b){
      for(int i=a;i<=b;i++){
-        if(s[i]>='a'&&s[i]<='z'){
-        s[i]++;}
+        if(s[i]>='a'&&s[i]<'z')
+            s[i]++;
+        else if(s[i]=='z')
+            s[i]='a';
     } 
 }
 void fun(int n,char* arr){
@@ -76,7 +74,7 @@ int main()
     int l=0;
     for(l=0;arr[l]!='\0';l++);;
     fun(l,arr);
-    for(int i=0;i<l;i++){
+    for(int i=0;arr[i]!='\0';i++){
         if(arr[i]>='a'&&arr[i]<='z')
             printf("%c",arr[i]);
  
