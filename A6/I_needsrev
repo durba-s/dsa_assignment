@@ -1,0 +1,105 @@
+#include <stdio.h>
+struct pt{
+    int ind;
+    int x;
+    int y;
+};
+struct pt am;
+int quad(struct pt p){
+    if(p.y == 0) {
+        if(p.x > 0) return 1;
+        else if(p.y==0) return 10;
+        else return 5;
+    } 
+    else if(p.y > 0) {
+        if(p.x > 0) return 2;
+        else if(p.x == 0) return 3;
+        else return 4;
+    } 
+    else {
+        if(p.x < 0) return 6;
+        else if(p.x == 0) return 7;
+        else return 8;
+    }
+}
+double slope(struct pt p){
+    return ((double)p.y)/((double)p.x);
+}
+int dist(struct pt x1,struct pt x2){
+    int x=x1.x>x2.x?x1.x-x2.x:x2.x-x1.x;
+    int y=x1.y>x2.y?x1.y-x2.y:x2.y-x1.y;
+    return x+y;
+}
+int cmp(struct pt x1,struct pt x2){
+    if(quad(x1)<quad(x2))   return 1;
+    else if(quad(x1)==quad(x2)){
+        if(slope(x1)<slope(x2) ) return 1;
+        else if(slope(x1)==slope(x2)){
+            if(dist(x1,am)<dist(x2,am))   return 1;
+        }
+    }
+    return 0;
+}
+void heapify(struct pt *array, int size, int i) {
+   if (size >1) {
+    
+    int smallest = i;
+    int l = ((2 * i) + 1);
+    int r = ((2 * i) + 2);
+    if (l < size && cmp(array[l] ,array[smallest])==1)
+      smallest = l;
+    if (r < size && cmp(array[r] ,array[smallest])==1)
+      smallest = r;
+    if (smallest != i) {
+        struct pt temp=array[i];
+        array[i]=array[smallest];
+        array[smallest]=temp;
+      heapify(array, size, smallest);
+    }
+  }
+}
+void buildminheap(struct pt* array,int n) {
+    int startIdx = (n / 2) - 1; 
+
+    for (int i = startIdx; i >= 0; i--) { 
+        heapify(array, n, i); 
+    } 
+}
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    struct pt arr[n];
+    int min=0;
+    int miny=1000000;
+    for(int i=0;i<n;i++){
+        int n1,n2,n3;
+        scanf("%d",&n3);
+        scanf("%d",&n1);
+        scanf("%d",&n2);
+        arr[i].x=n1;
+        arr[i].y=n2;
+        arr[i].ind=n3;
+        if(arr[i].y<miny){
+            min=i;
+            miny=arr[i].y;
+        }    
+        
+    }
+    am=arr[min];
+    for(int i=0;i<n;i++){
+        arr[i].x=arr[i].x-am.x;
+        arr[i].y=arr[i].x-am.y;
+    }
+    buildminheap(arr,n);
+    for(int i=0;i<n;i++){
+        if(arr[0].ind!=am.ind)
+            printf("%d ",arr[0].ind);
+        struct pt temp=arr[0];
+        arr[0]=arr[n-i-1];
+        arr[n-i-1]=arr[0];
+        heapify(arr,n-i-1,0);
+
+    }
+    return 0;
+}
