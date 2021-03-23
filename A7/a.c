@@ -46,5 +46,6 @@ int main(){
             
         push(i,stack1,&top1);
     }
+    return 0;
     
 }
