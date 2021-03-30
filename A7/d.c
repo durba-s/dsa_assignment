@@ -39,8 +39,8 @@ void multiSourceBFS(struct graph* g,int onePos[],int visited[],int distance[],in
             int vnum=temp->num;
             if (visited[vnum]!=1) {
                 visited[vnum] = 1;
-                if(distance[x] + 1<distance[vnum]){
-                   distance[vnum]=distance[x] + 1;
+                if(distance[x]+1<distance[vnum]){
+                   distance[vnum]=distance[x]+1;
                 }
                 enqueue(onePos,&tail,vnum,m*n);
             }
