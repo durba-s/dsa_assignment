@@ -30,20 +30,19 @@ void edge(struct graph* g, int v1, int v2) {
   e2->next = g->list[v1];
   g->list[v1] = e2;
 }
-int min(int a,int b){
-    if(a>b) return b;
-    else return a;
-}
-void multiSourceBFS(struct graph* g,int q[],int visited[],int distance[],int head,int tail,int m,int n) { 
+void multiSourceBFS(struct graph* g,int onePos[],int visited[],int distance[],int head,int tail,int m,int n) { 
     struct node* temp;
     while (head < tail) {
-        int v=dequeue(q,&head,m*n);
-        temp = g->list[v];
+        int x=dequeue(onePos,&head,m*n);
+        temp = g->list[x];
         while(temp!=NULL){
-             if (visited[temp->num]!=1) {
-                visited[temp->num] = 1;
-                distance[temp->num] = min(distance[temp->num], distance[v] + 1);
-                enqueue(q,&tail,temp->num,m*n);
+            int vnum=temp->num;
+            if (visited[vnum]!=1) {
+                visited[vnum] = 1;
+                if(distance[vnum]>distance[x] + 1){
+                   distance[vnum]=distance[x] + 1;
+                }
+                enqueue(onePos,&tail,vnum,m*n);
             }
             temp=temp->next;
         }
@@ -52,7 +51,8 @@ void multiSourceBFS(struct graph* g,int q[],int visited[],int distance[],int hea
     int current=0;
     for(int i=0;i<m;i++){
         for(int j=0;j<n;j++){
-            printf("%d ",distance[current++]);
+            printf("%d ",distance[current]);
+            current+=1;
         }
         printf("\n");
     }
@@ -92,7 +92,7 @@ int main(){
             k++;
         }
     }
-    int distance[m*n], visited[m*n], q[m*n];
+    int distance[m*n], visited[m*n],onePos[m*n];
     for(int i=0;i<m*n;i++){
         visited[i]=0;
         distance[i]=INT_MAX;
@@ -104,12 +104,12 @@ int main(){
             if (arr[i][j]==1) {
                 distance[current] = 0;
                 visited[current] = 1;
-                enqueue(q,&tail,current,m*n);
+                enqueue(onePos,&tail,current,m*n);
             }
  
             current++;
         }
     }
-   multiSourceBFS(g,q,visited,distance,head,tail,m,n);
+   multiSourceBFS(g,onePos,visited,distance,head,tail,m,n);
    return 0;
 }
