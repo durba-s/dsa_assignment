@@ -32,14 +32,14 @@ void edge(struct graph* g, int v1, int v2) {
 }
 void multiSourceBFS(struct graph* g,int onePos[],int visited[],int distance[],int head,int tail,int m,int n) { 
     struct node* temp;
-    while (head < tail) {
+    while (tail>head){
         int x=dequeue(onePos,&head,m*n);
         temp = g->list[x];
         while(temp!=NULL){
             int vnum=temp->num;
             if (visited[vnum]!=1) {
                 visited[vnum] = 1;
-                if(distance[vnum]>distance[x] + 1){
+                if(distance[x] + 1<distance[vnum]){
                    distance[vnum]=distance[x] + 1;
                 }
                 enqueue(onePos,&tail,vnum,m*n);
@@ -70,43 +70,40 @@ int main(){
     }
     struct graph* g = malloc(sizeof(struct graph));
     g->ver = m*n;
- 
-    g->list = malloc(m*n* sizeof(struct node*));
+    g->list = malloc(m*n*sizeof(struct node*));
     for (int i = 0; i < m*n; i++)
          g->list[i] = NULL;
     int k=0;
     for (int i=0; i<m; i++){   
         for (int j=0; j<n; j++){
-            if (i==n-1){
-                if (j!=m-1){
+            if (i==m-1){
+                if (j!=n-1){
                     edge(g,k,k+1);
                 }
             }
-            else if (j==m-1){
-                edge(g,k,k+m);
+            else if (j==n-1){
+                edge(g,k,k+n);
             }
             else{
                 edge(g,k,k+1);
-                edge(g,k,k+m);
+                edge(g,k,k+n);
             }
             k++;
         }
     }
     int distance[m*n], visited[m*n],onePos[m*n];
+    int current=0,head=0,tail=0;
     for(int i=0;i<m*n;i++){
         visited[i]=0;
         distance[i]=INT_MAX;
     }
-    int current=0;
-    int head=0,tail=0;
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i=0;i<m;i++) {
+        for (int j=0;j<n;j++) {
             if (arr[i][j]==1) {
-                distance[current] = 0;
-                visited[current] = 1;
+                distance[current]=0;
+                visited[current]=1;
                 enqueue(onePos,&tail,current,m*n);
             }
- 
             current++;
         }
     }
