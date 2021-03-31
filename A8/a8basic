@@ -1,0 +1,36 @@
+#include<stdio.h>
+struct Node {
+    int val ;
+    struct Node* left;
+    struct Node* right;
+} ;
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    int arr[n];
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+    }
+    int c[n-1],p[n-1];
+    char a[n-1];
+    char c1;
+    for(int i=0;i<n-1;i++){
+        scanf("%d",&c[i]);
+        scanf("%d",&p[i]);
+        scanf("%c",&c1);
+        scanf("%c",&a[i]);
+        scanf("%c",&c1);
+        
+    }
+    for(int i=0;i<n-1;i++){
+        printf("%d ",c[i]);
+        printf("%d ",p[i]);
+        printf("%c",a[i]);
+        printf("\n");
+        
+    }
+    
+
+    return 0;
+}
