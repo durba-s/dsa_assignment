@@ -69,33 +69,3 @@ int main()
     return 0;
 }
 
-/*
-Node* createTree(int n, int arr[n]) {
-    Node* treeArr[n];
- 
-    for (int i = 0; i < n; i++) {
-        treeArr[i] = createNode(arr[i]);
-    }
- 
-    int u, v;
-    char dir;
- 
-    for (int i = 0; i < n - 1; ++i) {
-        scanf("%d %d %c%*c", &u, &v, &dir);
- 
-        switch (dir) {
-            case 'L':
-                treeArr[u]->left = treeArr[v];
-                break;
-            case 'R':
-                treeArr[u]->right = treeArr[v];
-                break;
- 
-            default:
-                break;
-        }
-    }
-}
-*/
-}
-}
