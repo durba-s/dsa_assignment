@@ -1,29 +1,29 @@
 #include<stdio.h>
-int preIndex = 0;
-int search(int arr[], int startIn,int endIn, int data)
+int t=0;
+int j= 0;
+void getPostOrder(int si, int ei,int n,int* in, int* pr)
 {
-    int i = 0;
-    for (i = startIn; i < endIn; i++)
-    {
-        if (arr[i] == data)
-        {
-            return i;
+    if (si<=ei){
+    int i=0;
+    for(i=si;i<ei;i++){
+        if(in[i]==pr[j]){
+            break;
         }
     }
-    return i;
-}
-void printPost(int arr[], int pre[],int inStrt, int inEnd)
-{
-    if (inStrt > inEnd)
-    {
+    j++;
+    getPostOrder(si,i-1,n,in,pr);
+    getPostOrder(i+1,ei,n,in,pr);
+    if(t<n-1){
+        printf("%d ",in[i]);
+        t++;
+       }
+    else{
+        printf("%d",in[i]);
+    }
+    }
+    else{
         return;
     }
-    int inIndex = search(arr, inStrt, inEnd,pre[preIndex++]);
- 
-    printPost(arr, pre, inStrt, inIndex - 1);
- 
-    printPost(arr, pre, inIndex + 1, inEnd);
-    printf("%d ",arr[inIndex]);
 }
 int main()
 {
@@ -36,7 +36,6 @@ int main()
     for(int i=0;i<n;i++){
         scanf("%d",&pr[i]);
     }
-    printPost(in,pr,0,n-1);
+    getPostOrder(0,n-1,n,in,pr);
     return 0;
 }
-
