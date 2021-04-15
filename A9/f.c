@@ -1,61 +1,67 @@
-#include <stdio.h>
-#include <stdlib.h>
-struct node {
-    int key;
-    struct node *left, *right;
+#include<stdio.h>
+#include<stdlib.h>
+#define int long long int
+struct Node {
+    int val ;
+    struct Node* left;
+    struct Node* right;
 };
- 
-struct node* newNode(int item)
-{
-    struct node* temp
-        = (struct node*)malloc(sizeof(struct node));
-    temp->key = item;
-    temp->left = temp->right = NULL;
-    return temp;
+struct Node* createNode(int v){
+    struct Node* newNode=malloc(sizeof(struct Node));
+    newNode->val=v;
+    newNode->left=NULL;
+    newNode->right=NULL;
+    return newNode;
 }
-void postorder(struct node* root)
-{
-    if (root != NULL) {
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d \n", root->key);
-    }
-}
-struct node* insert(struct node* node, int key)
-{
+struct Node* findNode(int v,struct Node* node){
     if (node == NULL)
-        return newNode(key);
-    if (key < node->key)
-        node->left = insert(node->left, key);
-    else if (key > node->key)
-        node->right = insert(node->right, key);
+        return NULL;
+    if (node->val==v)
+        return node;
+    if(v<(node->val))
+        return findNode(v,node->right);
+    return findNode(v,node->left);
+}
+struct Node* insertBST(int v,struct Node* node){
+     if (node==NULL)
+        return createNode(v);
+    if (node->val<v)
+        node->right = insertBST(v,node->right);
+    else if (node->val>v)
+        node->left = insertBST(v,node->left);
     return node;
 }
-struct node* search(struct node* root, int key)
-{
-    if (root == NULL || root->key == key)
-       return root;
+void printPostOrder(struct Node* current,int n){
     
-    if (root->key < key)
-       return search(root->right, key);
- 
-    return search(root->left, key);
+    if(current==NULL)
+        return;
+    else{
+        printPostOrder(current->left,n);
+        printPostOrder(current->right,n);
+        if(current->val!=n){
+        printf("%lld ",current->val);
+        }
+        else{
+           printf("%lld",current->val);
+        }
+    }
 }
-int main()
-{
+int main(){
     int n;
-    scanf("%d",&n);
+    scanf("%lld",&n);
     int arr[n];
     for(int i=0;i<n;i++){
-        scanf("%d",&arr[i]);
+        scanf("%lld",&arr[i]);
     }
-    struct node* root = NULL;
-    root = insert(root,arr[0]);
+    int s=1;
+    struct Node* root=createNode(arr[0]);
     for(int i=1;i<n;i++){
-        if(search(root,arr[i])==NULL)
-            insert(root,arr[i]);
+        if(findNode(arr[i],root)==NULL){
+            insertBST(arr[i],root);
+            s++;
+        }
     }
-    postorder(root);
- 
-    return 0;
+    printPostOrder(root,root->val);
+    return 0ll;
+    
 }
